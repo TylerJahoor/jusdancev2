@@ -26,6 +26,11 @@
                     <video id="instructionVideo" src="vid.mp4"></video>
                     <div id="videoTime">Time: 0:00</div>
                     <img src="https://www.citypng.com/public/uploads/preview/download-realistic-golden-metal-bell-png-704081695123095ykefzrtchm.png" id="bricked" style="height:100px;width:100px;translate:0px -50px;opacity:0;">
+                    <div>
+                        <p id="tolerance">move accuracy: 0.8</p>
+                        <input type="range" min="0" max="100" value="80" id="tolerant" oninput="tolerate()">
+                        <input type="text" placeholder="buffer move time in seconds" value="0.5" id="buffer" oninput="buff()">
+                    </div>
                 </div>
             </div>
             <div id="label-container" style="font-size:20px;"></div>
