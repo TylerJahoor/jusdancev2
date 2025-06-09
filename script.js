@@ -10,6 +10,16 @@ function reset(){
     stamps=[[0,3,7,10],[1,8],[4,20,23,32,35],[18,21,22,27],[30],[16],[11,25],[26],[12]];
 }
 reset();
+let tolerant=0.8;
+function tolerate(){
+    tolerant=document.getElementById("tolerant").value/document.getElementById("tolerant").max;
+    document.getElementById("tolerance").innerHTML="move accuracy: "+tolerant;
+}
+let buffer=0.5;
+function buff(){
+    buffer=document.getElementById("buffer").value;
+}
+
 
 async function init() {
     const modelURL = URL + "model.json";
@@ -55,11 +65,11 @@ async function predict() {
     for(let i = 0; i < maxPredictions; i++) {
         const classPrediction = prediction[i].className + ": " + prediction[i].probability.toFixed(2);
         //labelContainer.childNodes[i].innerHTML = classPrediction;
-        if(prediction[i].probability>0.5){
+        if(prediction[i].probability>tolerant){
             labelContainer.childNodes[i].innerHTML = classPrediction+"🤑"+stamps[i];
 
             for(let j=0;j<stamps[i].length;j++){
-                if(document.getElementById("instructionVideo").currentTime -0.5 < stamps[i][j] && stamps[i][j] < document.getElementById("instructionVideo").currentTime +0.5){
+                if(document.getElementById("instructionVideo").currentTime -buffer < stamps[i][j] && stamps[i][j] < document.getElementById("instructionVideo").currentTime +buffer){
                     stamps[i][j]="✅";
                     document.getElementById("bricked").style.opacity=1;
                     const newSound = new Audio("bell.mp3");
@@ -74,7 +84,6 @@ async function predict() {
     }
 
     document.getElementById("bricked").style.opacity-=0.1;
-
     // finally draw the poses
     drawPose(pose);
 }
